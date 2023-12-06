@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+
+<head>
+    <title>Kontrak</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".status-button").on("click", function () {
+            var idKontrak = $(this).data("id-kontrak"); // Retrieve the kontrakId from the data attribute
+            var action = $(this).text();
+
+            $.ajax({
+                type: "POST",
+                url: "/sales/kontrak/update-status", // Update the URL accordingly
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content'),
+                },
+                data: {
+                    idKontrak: idKontrak,
+                    action: action
+                },
+                success: function (newStatus) {
+                    // Update the status value on the page
+                    $("#status").text("Status: " + newStatus);
+
+                    // Hide the buttons after a successful response
+                    $("#terimaButton").hide();
+                    $("#tolakButton").hide();
+                },
+                error: function (error) {
+                    // Handle the error response from the server (if needed)
+
+                    // Re-enable the buttons on error so the user can try again
+                    $("#terimaButton").prop("disabled", false);
+                    $("#tolakButton").prop("disabled", false);
+                }
+            });
+        });
+    });
+</script>
+
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Detail Kontrak</h2>
+                <br>
+                <p th:text="'Id Kontrak: ' + ${kontrak.idKontrak}"></p>
+                <p th:text="'Nama Kontrak : ' + ${kontrak.nama}"></p>
+                <p th:text="'Jangka Waktu (dalam bulan): ' + ${kontrak.jangkaWaktu}"></p>
+                <p th:text="'Jenis Kontrak: ' + ${kontrak.jenis}"></p>
+                <p th:text="'Nilai Penawaran: ' + ${kontrak.nilaiPenawaran}"></p>
+                <p th:text="'Keterangan: ' + ${kontrak.keterangan}"></p>
+                <p th:text="'Sponsor: ' + ${kontrak.sponsor.nama}"></p>
+                <p th:text="'Perusahaan: ' + ${kontrak.idol.sublabel.nama}"></p>
+                <p th:text="'Idol: ' + ${kontrak.idol.nama}"></p>
+                <p id="status" th:text="'Status: ' + ${kontrak.status}"></p>
+                <a id="terimaButton" class="btn btn-primary status-button" th:if="${role == 'Sales' && kontrak.status == 'dalam review'}" th:data-id-kontrak="${kontrak.idKontrak}">Terima Kontrak</a>
+                <a id="tolakButton" class="btn btn-danger status-button" th:if="${role == 'Sales' && kontrak.status == 'dalam review'}" th:data-id-kontrak="${kontrak.idKontrak}">Tolak Kontrak</a>
+                <a th:href="@{/}" class="btn btn-primary">Beranda</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<hr>
+</body>
+
+</html>

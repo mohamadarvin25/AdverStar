@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<head>
+  <title>View All Kontrak</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+<nav th:replace="fragments/fragment :: navbar(page = 'Kontrak')"></nav>
+  <div class="container">
+    <div class="card m-4 p-4">
+      <div class="card-body">
+        <div class="justify-content-center">
+          <h2>Daftar Kontrak</h2>
+          <a th:if="${role == 'Sponsor'}" th:href="@{/sponsor/kontrak/add}" class="mx-2 btn btn-primary">Tambah Kontrak Baru</a>
+          <a th:if="${role == 'Sponsor'}" th:href="@{/}" class="mx-2 my-4 btn btn-primary">Beranda</a>
+          <table class="table" th:if="${role == 'Sponsor'}">
+            <thead>
+              <tr>
+                <th class="text-center">No</th>
+                <th class="text-center">Nama Kontrak</th>
+                <th class="text-center">Nama Idol</th>
+                <th class="text-center">Nama Sublabel</th>
+                <th colspan="4" style="text-align: center">Aksi</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="kontrak, iterationStatus : ${listKontrak}"
+                th:style="${iterationStatus.even} ? 'font-weight:bold;'">
+                <td class="text-center" th:text="${iterationStatus.count}"></td>
+                <td class="text-center" th:text="${kontrak.nama}"></td>
+                <td class="text-center" th:text="${kontrak.idol.nama}"></td>
+                <td class="text-center" th:text="${kontrak.idol.sublabel.nama}"></td>
+                <td class="text-center">
+                  <a class="btn btn-primary" th:href="@{/sponsor/kontrak/view(id=${kontrak.idKontrak})}">Detail Kontrak</a>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+          <table class="table" th:if="${role == 'Manager'}">
+            <thead>
+            <tr>
+              <th class="text-center">No</th>
+              <th class="text-center" >Nama Kontrak</th>
+              <th class="text-center" >Nama Idol</th>
+              <th class="text-center" >Nama Sponsor</th>
+              <th colspan="4" style="text-align: center">Aksi</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="kontrak, iterationStatus : ${listKontrak}"
+                th:style="${iterationStatus.even} ? 'font-weight:bold;'">
+              <td class="text-center" th:text="${iterationStatus.count}"></td>
+              <td class="text-center" th:text="${kontrak.nama}"></td>
+              <td class="text-center" th:text="${kontrak.idol.nama}"></td>
+              <td class="text-center" th:text="${kontrak.sponsor.nama}"></td>
+              <td class="text-center">
+                <a class="btn btn-primary" th:href="@{/manager/kontrak/view(id=${kontrak.idKontrak})}" >Detail Kontrak</a>
+              </td>
+
+            </tr>
+            </tbody>
+          </table>
+          <table class="table" th:if="${role == 'Sales' && sales.sublabel.idSublabel == 0}">
+            <thead>
+            <tr>
+              <th class="text-center">No</th>
+              <th class="text-center">Nama Kontrak</th>
+              <th class="text-center">Nama Idol</th>
+              <th class="text-center">Nama Perusahaan</th>
+              <th class="text-center">Nama Sponsor</th>
+              <th  style="text-align: center">Aksi</th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="kontrak, iterationStatus : ${listKontrak}"
+                th:style="${iterationStatus.even} ? 'font-weight:bold;'">
+              <td class="text-center" th:text="${iterationStatus.count}"></td>
+              <td class="text-center" th:text="${kontrak.nama}"></td>
+              <td class="text-center" th:text="${kontrak.idol.nama}"></td>
+              <td class="text-center" th:text="${kontrak.idol.sublabel.nama}"></td>
+              <td class="text-center" th:text="${kontrak.sponsor.nama}"></td>
+              <td class="text-center">
+                <a class="btn btn-primary" th:href="@{/sales/kontrak/view(id=${kontrak.idKontrak})}" >Detail Kontrak</a>
+              </td>
+
+            </tr>
+            </tbody>
+          </table>
+          <table class="table" th:if="${role == 'Sales' && sales.sublabel.idSublabel != 0}">
+            <thead>
+            <tr>
+              <th class="text-center">No</th>
+              <th class="text-center">Nama Kontrak</th>
+              <th class="text-center">Nama Idol</th>
+              <th class="text-center">Nama Sponsor</th>
+              <th colspan="4" style="text-align: center">Aksi</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="kontrak, iterationStatus : ${listKontrak}"
+                th:style="${iterationStatus.even} ? 'font-weight:bold;'">
+              <td class="text-center" th:text="${iterationStatus.count}"></td>
+              <td class="text-center" th:text="${kontrak.nama}"></td>
+              <td class="text-center" th:text="${kontrak.idol.nama}"></td>
+              <td class="text-center" th:text="${kontrak.sponsor.nama}"></td>
+              <td class="text-center">
+                <a class="btn btn-primary" th:href="@{/sales/kontrak/view(id=${kontrak.idKontrak})}" >Detail Kontrak</a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

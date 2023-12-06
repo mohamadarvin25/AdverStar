@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tambah Kontrak</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Tambah Kontrak</h2>
+                <br>
+                <form th:action="@{/sponsor/kontrak/add}" th:object="${kontrak}" method="POST">
+
+                    <label>Nama</label>
+                    <input type="text" name="nama" class="form-control" />
+                    <br>
+                    <label>Jangka Waktu (dalam bulan)</label>
+                    <input type="number" name="jangkaWaktu" class="form-control" />
+                    <br>
+                    <label>Jenis</label>
+                    <select type= "option" name="jenis" class="form-control">
+                        <option value="social media endorsement">social media endorsement</option>
+                        <option value="brand representative/ambassador">brand representative/ambassador</option>
+                        <option value="special event">special event</option>
+                    </select>
+                    <br>
+                    <label>Nilai Penawaran</label>
+                    <input type="text" name="nilaiPenawaran" class="form-control" />
+                    <br>
+                    <label>Keterangan</label>
+                    <input type="text" name="keterangan" class="form-control" />
+                    <br>
+
+                    <label>Idol</label> <br>
+                    <select  name="idol" class="form-control">
+                        <option th:each="idol : ${listIdol}" th:value="${idol.idIdol}" th:text="${idol.nama}">
+                        </option>
+                    </select>
+                    <br>
+
+                    <br>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <a class="btn btn-link" href="/">Home</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

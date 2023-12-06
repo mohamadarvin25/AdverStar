@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tambah Sponsor</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card m-4 p-4">
+            <div class="card-body">
+                <div class="justify-content-center">
+                    <h2>Tambah Sponsor Baru</h2>
+                    <br>
+                    <form th:action="@{/sponsor/add}" th:object="${sponsor}" method="POST">
+                        <label>Username</label>
+                        <input type="text" name="username" class="form-control" />
+                        <br>
+                        <label>Nama</label>
+                        <input type="text" name="nama" class="form-control" />
+                        <br>
+                        <label>E-mail</label>
+                        <input type="text" name="email" class="form-control" />
+                        <br>
+                        <label>Password</label>
+                        <input type="password" name="password" class="form-control" />
+                        <br>
+                        <label>Tahun Berdiri</label>
+                        <input type="text" name="tahunBerdiri" class="form-control" />
+                        <br>
+                        Kategori  <br>
+                        <select type= "option" name="kategori" class="form-control">
+                            <option value="electronic">electronic</option>
+                            <option value="FNB">FNB</option>
+                            <option value="cosmetics">cosmetics</option>
+                            <option value="daily necessities">daily necessities</option>
+                            <option value="service provider">service provider</option>
+                        </select>
+                        <br>
+
+                        <br>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <a class="btn btn-link" href="/">Home</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
